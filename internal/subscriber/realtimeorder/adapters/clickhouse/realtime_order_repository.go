@@ -70,7 +70,7 @@ func (r *realtimeOrderRepository) CreateOrderRecord(record domain.OrderRecord) e
 			?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
 		)
 	`
-	fmt.Println(record)
+
 	err := r.db.Exec(
 		context.Background(),
 		query,
