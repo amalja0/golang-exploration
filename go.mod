@@ -3,15 +3,16 @@ module analytic-reporting
 go 1.24.5
 
 require (
+	github.com/ClickHouse/clickhouse-go/v2 v2.40.1
+	github.com/IBM/sarama v1.45.2
 	github.com/gofiber/fiber/v2 v2.52.9
 	github.com/google/uuid v1.6.0
 	github.com/lib/pq v1.10.9
+	github.com/spf13/viper v1.20.1
 )
 
 require (
 	github.com/ClickHouse/ch-go v0.67.0 // indirect
-	github.com/ClickHouse/clickhouse-go/v2 v2.40.1 // indirect
-	github.com/IBM/sarama v1.45.2 // indirect
 	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eapache/go-resiliency v1.7.0 // indirect
@@ -46,7 +47,6 @@ require (
 	github.com/spf13/afero v1.12.0 // indirect
 	github.com/spf13/cast v1.7.1 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
-	github.com/spf13/viper v1.20.1 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.51.0 // indirect
