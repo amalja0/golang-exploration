@@ -7,15 +7,30 @@ import (
 
 	"github.com/ClickHouse/clickhouse-go/v2"
 	"github.com/ClickHouse/clickhouse-go/v2/lib/driver"
+	"github.com/spf13/viper"
 )
 
 func ConnectClickHouse() (driver.Conn, error) {
+	viper.SetConfigType("env")
+	viper.AddConfigPath(".")
+	viper.SetConfigName(".env")
+
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	address := fmt.Sprintf(
+		"%s:%s",
+		viper.GetString("CH_HOST"),
+		viper.GetString("CH_PORT"),
+	)
 	conn, err := clickhouse.Open(&clickhouse.Options{
-		Addr: []string{"localhost:9000"},
+		Addr: []string{address},
 		Auth: clickhouse.Auth{
-			Database: "default",
-			Username: "default",
-			Password: "password",
+			Database: viper.GetString("CH_DB_NAME"),
+			Username: viper.GetString("CH_USER"),
+			Password: viper.GetString("CH_PASSWORD"),
 		},
 	})
 	if err != nil {

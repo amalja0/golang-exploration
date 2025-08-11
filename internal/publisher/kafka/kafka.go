@@ -9,9 +9,9 @@ import (
 )
 
 func ConnectKafkaProducer() (sarama.SyncProducer, error) {
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath("./internal/publisher/config")
-	viper.SetConfigName("config")
+	viper.SetConfigType("env")
+	viper.AddConfigPath(".")
+	viper.SetConfigName(".env")
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -25,8 +25,8 @@ func ConnectKafkaProducer() (sarama.SyncProducer, error) {
 
 	brokerUrl := fmt.Sprintf(
 		"%s:%s",
-		viper.GetString("kafka.host"),
-		viper.GetString("kafka.port"),
+		viper.GetString("KAFKA_HOST"),
+		viper.GetString("KAFKA_PORT"),
 	)
 	brokersUrl := []string{brokerUrl}
 	conn, err := sarama.NewSyncProducer(brokersUrl, config)

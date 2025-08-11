@@ -2,17 +2,34 @@ package kafka
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/IBM/sarama"
+	"github.com/spf13/viper"
 )
 
 func ConnectKafkaConsumer() (sarama.Consumer, error) {
+	viper.SetConfigType("env")
+	viper.AddConfigPath(".")
+	viper.SetConfigName(".env")
+
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	config := sarama.NewConfig()
 	config.ClientID = "kafka-consumer-client"
 	config.Consumer.Return.Errors = true
 
-	brokers := []string{"localhost:19092"}
+	brokerUrl := fmt.Sprintf(
+		"%s:%s",
+		viper.GetString("KAFKA_HOST"),
+		viper.GetString("KAFKA_PORT"),
+	)
+
+	brokers := []string{brokerUrl}
 
 	master, err := sarama.NewConsumer(brokers, config)
 	if err != nil {

@@ -9,9 +9,9 @@ import (
 )
 
 func ConnectPostgres() (*sql.DB, error) {
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath("./internal/publisher/config")
-	viper.SetConfigName("config")
+	viper.SetConfigType("env")
+	viper.AddConfigPath(".")
+	viper.SetConfigName(".env")
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -20,20 +20,17 @@ func ConnectPostgres() (*sql.DB, error) {
 
 	connStr := fmt.Sprintf(
 		"user=%s password=%s dbname=%s sslmode=%s",
-		viper.GetString("db.user"),
-		viper.GetString("db.password"),
-		viper.GetString("db.name"),
-		viper.GetString("db.ssl_mode"),
+		viper.GetString("PG_USER"),
+		viper.GetString("PG_PASSWORD"),
+		viper.GetString("PG_DB_NAME"),
+		viper.GetString("PG_SSL_MODE"),
 	)
-
-	fmt.Println(connStr)
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		fmt.Println(err)
 		log.Fatal(err)
 	}
-	//defer db.Close()
 
 	return db, err
 }
